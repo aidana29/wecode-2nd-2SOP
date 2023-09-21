@@ -86,11 +86,11 @@ CREATE TABLE `product_image` (
 CREATE TABLE `shipment` (
   `id` integer PRIMARY KEY,
   `shipment_date` date,
-  `address` string,
-  `city` string,
-  `state` string,
-  `country` string,
-  `zip_code` string,
+  `address` varchar(255),
+  `city` varchar(255),
+  `state` varchar(255),
+  `country` varchar(255),
+  `zip_code` varchar(255),
   `user_id` int,
   `order_id` int
 );
@@ -107,4 +107,3 @@ CREATE TABLE `payments` (
 
 
 -- migrate:down
-
