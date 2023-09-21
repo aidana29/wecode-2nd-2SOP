@@ -4,11 +4,11 @@ const signUp = async(req, res) => {
 
     const { lastName, firstName, email, password, phoneNumber } = req.body;
 
-    // if (!lastName || !firstName || !email || !password){
-    //     const error = new Error("KEY_ERROR")
-    //     error.status = 400
-    //     throw error
-    // };
+    if (!lastName || !firstName || !email || !password || !phoneNumber){
+        const error = new Error("KEY_ERROR")
+        error.status = 400
+        throw error
+    };
 
     await userService.signUp(lastName, firstName, email, password, phoneNumber);
 
