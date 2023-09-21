@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "npm i": "npm i express, bcrypt, cors, dotenv, mysql2, typeorm",
-    "npm start": "node app.js"
+    "build": "npm i express, bcrypt, cors, dotenv, mysql2, typeorm",
+    "start": "nodemon app.js"
   },
   "author": "",
   "license": "ISC",
