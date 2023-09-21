@@ -1,5 +1,4 @@
 -- migrate:up
-
 ALTER TABLE `2_category` ADD FOREIGN KEY (`1_categorty_id`) REFERENCES `1_category` (`id`) ON DELETE CASCADE;
 
 ALTER TABLE `product` ADD FOREIGN KEY (`2_category_id`) REFERENCES `2_category` (`id`) ON DELETE CASCADE;
