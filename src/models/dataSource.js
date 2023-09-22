@@ -12,4 +12,3 @@ const myDataSource = new DataSource({
 module.exports = {
   myDataSource,
 };
-//젠장 왜 DBMATE UP 안되는거야 -2023.09.21
