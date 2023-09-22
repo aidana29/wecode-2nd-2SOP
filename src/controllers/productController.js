@@ -1,17 +1,25 @@
 const productService = require("../services/productService");
 
 const showMain = async (req, res) => {
-  const { lastName, firstName, email, password } = req.body;
+  const { product_id } = req.body;
 
-  if (!lastName || !firstName || !email || !password) {
-    const error = new Error("KEY_ERROR");
-    error.status = 400;
-    throw error;
-  }
+  await productService.showMain(product_id);
 
-  await userService.signUp(lastName, firstName, email, password);
-
-  res.status(201).json({ message: "USER_CREATED" });
+  res.status(201).json({ message: "show main product" });
 };
 
-module.exports = showMain;
+const showSpecificProduct = async (req, res) => {
+  /* const { product_id } = req.body;
+  //이해했어
+  //controller에서 req.body받아서 productid에 대입해준다음
+  //service 콜함
+  //ㅋㅋ
+  await productService.showSpecificProduct(product_id);
+  res.status(201).json({ message: "show specific product" });
+*/
+};
+
+module.exports = {
+  showMain,
+  showSpecificProduct,
+};

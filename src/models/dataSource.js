@@ -9,6 +9,4 @@ const myDataSource = new DataSource({
   port: process.env.TYPEORM_PORT,
 });
 
-module.exports = {
-  myDataSource,
-};
+module.exports = { myDataSource };
