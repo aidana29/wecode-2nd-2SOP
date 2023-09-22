@@ -8,20 +8,13 @@ const signUp = async (lastName, firstName, email, password, phoneNumber) => {
   );
 };
 
-const userByEmail = async (email) => {
+const existingUser = async (email) => {
   const [emailCheck] = await myDataSource.query(
-    `SELECT email FROM users WHERE email = ?`,
+    `SELECT * FROM users WHERE email = ?`,
     [email]
   );
+  console.log(emailCheck)
   return emailCheck;
 };
 
-const passwordCheck = async (password) => {
-  const [userPasswordCheck] = await myDataSource.query(
-    `SELECT password FROM users WHERE password = ?`,
-    [password]
-  );
-  return userPasswordCheck;
-};
-
-module.exports = { signUp, userByEmail, passwordCheck };
+module.exports = { signUp, existingUser };

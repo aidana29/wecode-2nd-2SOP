@@ -1,38 +1,37 @@
 const userService = require("../services/userService");
 
-const signUp = async(req, res) => {
+const signUp = async (req, res) => {
+  const { lastName, firstName, email, password, phoneNumber } = req.body;
 
-    const { lastName, firstName, email, password, phoneNumber } = req.body;
+  if (!lastName || !firstName || !email || !password || !phoneNumber) {
+    const error = new Error("KEY_ERROR");
+    error.status = 400;
+    throw error;
+  }
 
-    if (!lastName || !firstName || !email || !password || !phoneNumber){
-        const error = new Error("KEY_ERROR")
-        error.status = 400
-        throw error
-    };
+  await userService.signUp(lastName, firstName, email, password, phoneNumber);
 
-    await userService.signUp(lastName, firstName, email, password, phoneNumber);
+  res.status(201).json({ message: "USER_CREATED" });
+};
 
-    res.status(201).json({ message: "USER_CREATED" });
-}
+const signIn = async (req, res) => {
+  const { email, password } = req.body;
 
+  if (!email || !password) {
+    const error = new Error("KEY_ERROR");
+    error.status = 400;
+    throw error;
+  }
 
-const signIn = async(req, res) => {
+  const token = await userService.signIn(email, password);
 
-    const { email, password } = req.body
-
-    if (!email || !password) {
-        const error = new Error ("KEY_ERROR")
-        error.status = 400
-        throw error
-    }
-
-    await userService.signIn(email, password);
-
-    res.status(200).json({message: "LOGIN_SUCCESS"});
-
-}
+  res.status(200).json({
+    message: "LOGIN_SUCCESS",
+    token
+  });
+};
 
 module.exports = {
-    signUp,
-    signIn
-}
+  signUp,
+  signIn,
+};
