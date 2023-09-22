@@ -1,9 +1,10 @@
 const express = require("express");
-const userController = require("../controllers/userController");
-// const { errorHandling } = require("../utilities/errorHandling");
+
+const userRouter = require("./userRouter");
+const productRouter = require("./productRouter");
 const router = express.Router();
 
-router.post("/", userController.signIn);
-router.post("/signUp", userController.signUp);
-router.get("/", productController.showMain);
-module.exports = { router };
+router.use("/users", userRouter.router);
+router.use("/", productRouter.router);
+
+module.exports = router;
