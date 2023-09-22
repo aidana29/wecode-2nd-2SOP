@@ -15,6 +15,24 @@ const signUp = async(req, res) => {
     res.status(201).json({ message: "USER_CREATED" });
 }
 
+
+const signIn = async(req, res) => {
+
+    const { email, password } = req.body
+
+    if (!email || !password) {
+        const error = new Error ("KEY_ERROR")
+        error.status = 400
+        throw error
+    }
+
+    await userService.signIn(email, password);
+
+    res.status(200).json({message: "LOGIN_SUCCESS"});
+
+}
+
 module.exports = {
-    signUp
+    signUp,
+    signIn
 }
