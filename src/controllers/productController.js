@@ -14,4 +14,4 @@ const showMain = async (req, res) => {
   res.status(201).json({ message: "USER_CREATED" });
 };
 
-module.exports = showMain;
+module.exports = { showMain };

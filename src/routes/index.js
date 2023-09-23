@@ -7,8 +7,8 @@ const { paymentRouter } = require("./paymentRouter");
 
 const router = express.Router();
 
-router.use("/users", userRouter.router);
-router.use("/product", productRouter.router);
+router.use("/users", userRouter);
+router.use("/product", productRouter);
 router.use("/cart", cartRouter);
 router.use("/payment", paymentRouter);
 

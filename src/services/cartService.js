@@ -1,3 +1,7 @@
-const userDao = require("../models");
+const { cartDao } = require("../models");
 
-module.exports = {};
+const cartIn = async () => {
+  console.log("hi");
+};
+
+module.exports = { cartIn };

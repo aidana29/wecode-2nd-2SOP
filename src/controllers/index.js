@@ -3,4 +3,9 @@ const productController = require("./productController");
 const cartController = require("./cartController");
 const paymentController = require("./paymentController");
 
-module.exports = { userController, productController };
+module.exports = {
+  userController,
+  productController,
+  cartController,
+  paymentController,
+};
