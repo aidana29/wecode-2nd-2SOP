@@ -1,4 +1,4 @@
-const productService = require("../services/productService");
+const productService = require("../services");
 
 const showMain = async (req, res) => {
   const { lastName, firstName, email, password } = req.body;
