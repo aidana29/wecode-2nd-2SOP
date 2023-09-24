@@ -1,4 +1,4 @@
-const productService = require("../services/productService");
+const productService = require("../services");
 
 const showMain = async (req, res) => {
   const { lastName, firstName, email, password } = req.body;
@@ -14,4 +14,4 @@ const showMain = async (req, res) => {
   res.status(201).json({ message: "USER_CREATED" });
 };
 
-module.exports = showMain;
+module.exports = { showMain };

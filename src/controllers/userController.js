@@ -1,4 +1,4 @@
-const userService = require("../services/userService");
+const { userService } = require("../services");
 
 const signUp = async (req, res) => {
   const { lastName, firstName, email, password, phoneNumber } = req.body;
@@ -27,7 +27,7 @@ const signIn = async (req, res) => {
 
   res.status(200).json({
     message: "LOGIN_SUCCESS",
-    token
+    token,
   });
 };
 
