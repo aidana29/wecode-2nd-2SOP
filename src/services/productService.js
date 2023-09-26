@@ -1,6 +1,6 @@
 const { productDao } = require("../models/productDao");
 //const { throwError } = require("../utils/throwError");
-const showMain = async () => {
+const showMain = async (req,res) => {
   // query thread from db
   const products = await productDao.showMain();
 

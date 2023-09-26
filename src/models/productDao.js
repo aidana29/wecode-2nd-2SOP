@@ -1,5 +1,5 @@
 const dataSource = require("./dataSource");
-const showMain = async () => {
+const showMain = async (req,res) => {
   await dataSource.query(`SELECT * FROM PRODUCT, PRODUCT_IMAGE`);
 };
 
