@@ -2,7 +2,6 @@ const express = require("express");
 
 
 const { userRouter } = require("./userRouter");
-const productRouter = require("./productRouter");
 const { productRouter } = require("./productRouter");
 const { cartRouter } = require("./cartRouter");
 const { paymentRouter } = require("./paymentRouter");

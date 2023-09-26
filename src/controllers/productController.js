@@ -1,11 +1,13 @@
-const productService = require("../services");
+const {productService}= require("../services");
 
 const showMain = async (req, res) => {
   try {
     const data = await productService.showMain(req,res);
-
-    res.status(201).json({ message: "show main product" ,
-  data : data});
+    console.log(data);
+    res.status(201).json({ 
+      message: "show main product" ,
+      data : data
+    });
   } catch (error) {
     console.log("error", error);
     res.status(error.status).json({ message: error.message });
