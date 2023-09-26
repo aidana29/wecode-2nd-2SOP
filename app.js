@@ -1,13 +1,18 @@
 const express = require("express");
 const cors = require("cors");
+
+const morgan = require("morgan");
 const dotenv = require("dotenv");
+
 dotenv.config();
+
 const { myDataSource } = require("./src/models/dataSource");
-const router = require("./src/routes");
+const { router } = require("./src/routes");
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use(morgan("dev"));
 app.use(router);
 
 app.get("/ping", async (req, res) => {

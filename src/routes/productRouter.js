@@ -1,11 +1,10 @@
-const express = require("express");
+const express = require("express"); //mandatory? 네 필수 적이라고 할 수 있습니다.
 
-const {productController} = require("../controllers");
+const { productController } = require("../controllers");
+const { errorHandling } = require("../utilities/errorHandling");
 const productRouter = express.Router();
 
-productRouter.get("/", productController.showMain);
-//URI:https://www.2sop.com/c/{category}/{second-category}/{product-name}
-//router.get("/c/:category/:second-category/:product-name", errorHandling(productController.signUp));≈
-
+// productRouter.post("/", errorHandling(productController.signIn));
+//productRouter.post("/signUp", errorHandling(productController.signUp));
 
 module.exports = { productRouter };
