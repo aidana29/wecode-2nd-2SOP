@@ -9,6 +9,3 @@ productRouter.get("/", productController.showMain);
 
 
 module.exports = { productRouter };
-//productRouter를 exports하는거랑 {productRouter} export하는 것의 차이
-//export가 productRouter에도있고 index에도있는데 차이가뭐에요
-//정답: index의 router는 
