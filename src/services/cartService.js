@@ -4,4 +4,8 @@ const cartIn = async () => {
   console.log("hi");
 };
 
-module.exports = { cartIn };
+const cartGet = async () => {
+  console.log("hi");
+};
+
+module.exports = { cartIn, cartGet };
