@@ -1,3 +1,8 @@
 const userDao = require("../models");
 
-module.exports = {};
+const orderPayment = async (req) => {
+  // 에러핸들링 모두 통과
+  await userDao.orderPayment(req);
+};
+
+module.exports = { orderPayment };
