@@ -2,7 +2,7 @@ const userDao = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const signUp = async (lastName, firstName, email, password, phoneNumber) => {
+const signUp = async (lastName, firstName, email, password) => {
   const emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
   if (!emailRegex.test(email)) {
     const error = new Error("INVALID_EMAIL");
