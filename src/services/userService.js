@@ -36,7 +36,6 @@ const signUp = async (lastName, firstName, email, password) => {
     firstName,
     email,
     encodedPassword,
-    phoneNumber
   );
 };
 
