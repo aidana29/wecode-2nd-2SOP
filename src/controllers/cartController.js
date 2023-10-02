@@ -1,16 +1,21 @@
-const { cartService } = require("../services")
+const { cartService } = require("../services");
 
-const cartItem = async(req, res) => {
-    try {
-      const { productId, selectIndex, quantity } = req.body; //selectIndex는 size를 의미함
-      const cartService.cartItem(productId, selectIndex, quantity) 
-    } catch (error) {
-        
-    }
-}
+const cartItem = async (req, res) => {
+  try {
+    const { productId, selectIndex, quantity } = req.body; //selectIndex는 size를 의미함
+    cartService.cartItem(productId, selectIndex, quantity);
+  } catch (error) {
+    console.log("error", error);
+    res.status(error.status).json({ message: error.message });
+  }
+};
 
 const cartGet = async (req, res) => {
-  console.log("hi");
+  try {
+    console.log("hi");
+  } catch (error) {
+    console.log("error", error);
+    res.status(error.status).json({ message: error.message });
+  }
 };
-module.exports = { cartIn, cartGet };
-
+module.exports = { cartItem, cartGet };
