@@ -1,9 +1,8 @@
-const userDao = require("../models");
+const { userDao } = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const signUp = async (lastName, firstName, email, password) => {
-
   if (!lastName || !firstName || !email || !password) {
     const error = new Error("KEY_ERROR");
     error.status = 400;
@@ -38,16 +37,10 @@ const signUp = async (lastName, firstName, email, password) => {
   const saltRounds = 10;
   const encodedPassword = await bcrypt.hash(password, saltRounds);
 
-  await userDao.signUp(
-    lastName,
-    firstName,
-    email,
-    encodedPassword,
-  );
+  await userDao.signUp(lastName, firstName, email, encodedPassword);
 };
 
 const signIn = async (email, password) => {
-
   if (!email || !password) {
     const error = new Error("KEY_ERROR");
     error.status = 400;
