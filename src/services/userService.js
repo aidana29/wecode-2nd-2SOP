@@ -3,6 +3,13 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const signUp = async (lastName, firstName, email, password) => {
+
+  if (!lastName || !firstName || !email || !password) {
+    const error = new Error("KEY_ERROR");
+    error.status = 400;
+    throw error;
+  }
+
   const emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
   if (!emailRegex.test(email)) {
     const error = new Error("INVALID_EMAIL");
@@ -36,11 +43,17 @@ const signUp = async (lastName, firstName, email, password) => {
     firstName,
     email,
     encodedPassword,
-    phoneNumber
   );
 };
 
 const signIn = async (email, password) => {
+
+  if (!email || !password) {
+    const error = new Error("KEY_ERROR");
+    error.status = 400;
+    throw error;
+  }
+
   const existingUser = await userDao.existingUser(email);
   if (!existingUser) {
     const error = new Error("NOT_REGISTERED");
