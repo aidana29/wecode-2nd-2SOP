@@ -12,7 +12,7 @@ CREATE TABLE `product_option` (
   `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
   `product_id` INT NOT NULL,
   `price` INT NOT NULL,
-  `size` VARCHAR(255),
+  `size` VARCHAR(255)
 );
 
 ALTER TABLE `product_option` ADD FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE;
