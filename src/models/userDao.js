@@ -1,6 +1,6 @@
 const { DataSource } = require("./dataSource");
 
-const signUp = async (lastName, firstName, email, password, phoneNumber) => {
+const signUp = async (lastName, firstName, email, password) => {
   await DataSource.query(
     `INSERT INTO users (last_name, first_name, email, password) VALUES (?, ?, ?, ?, ?)`,
     [lastName, firstName, email, password]
