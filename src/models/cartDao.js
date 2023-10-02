@@ -1,18 +1,21 @@
 const { DataSource } = require("typeorm");
+const { myDataSource } = require("./dataSource");
 
 
-const findCartIndex = async(user_id) =>{`
+const findCartIndex = async(user_id) =>{
+    const userId = await myDataSource.query(`
     SELECT id
     FROM user_id = ${user_id}
-`}
+`);
 return userId;
+};
 
-const addInCart = async () => {
+const addInCart = async (req) => {
     await myDataSource.query(`
-    INSERT INTO carts (user_id, status) VALUE
-    (${req.user_id}, 1);
+    INSERT INTO carts (user_id) VALUE
+    (${req.user_id});
     `)
-    const cart_id = findCartIndex(req.user_id)
+    const cart_id = findCartIndex(req.user_id);
     await myDataSource.query(`
     INSERT INTO cart_items (product_id,cart_is,price,quntity) VALUE
     (${req.body.productId}, ${cart_id}, ${price} 1);
