@@ -1,6 +1,4 @@
-const { DataSource } = require("typeorm");
 const { myDataSource } = require("./dataSource");
-
 
 const findCartIndex = async(user_id) =>{
     const userId = await myDataSource.query(`
@@ -10,18 +8,17 @@ const findCartIndex = async(user_id) =>{
 return userId;
 };
 
-const addInCart = async (req) => {
+const addInCart = async (userId, productId, price) => {
     await myDataSource.query(`
     INSERT INTO carts (user_id) VALUE
-    (${req.user_id});
+    (${userId});
     `)
     const cart_id = findCartIndex(req.user_id);
     await myDataSource.query(`
     INSERT INTO cart_items (product_id,cart_is,price,quntity) VALUE
-    (${req.body.productId}, ${cart_id}, ${price} 1);
+    (${productId}, ${cart_id}, ${price}, 1);
     
     `);
-
 }
 
 const showCart = async () => {
@@ -36,28 +33,16 @@ const showCart = async () => {
     `)
 }
 
-const exProductsDao = async (userId, productId) => {
-    try{
-        await myDataSource.query(`
-        SELETE * FROM cart WHERE user_id =???, product_id = ??`, [user_id, product_id]
-        );
-    } catch (err) {
-        const error = new Error("Error Dao");
-        error.statusCode = 500;
-        throw error;
-    }
-};
-
 const deleteCartsDao = async (productId) => {
-    try {
-        await myDataSource.query(`
-        SELETE FROM cart WHERE product_id =??` , [productId]
-        );
-    } catch (err) {
-        const error = new Error ("Error Dao");
-        error.statusCode = 500;
-        throw error;
-    }
+//     try {
+//         await myDataSource.query(`
+//         SELETE FROM cart WHERE product_id =??` , [productId]
+//         );
+//     } catch (err) {
+//         const error = new Error ("Error Dao");
+//         error.statusCode = 500;
+//         throw error;
+//     }
 };
 
 

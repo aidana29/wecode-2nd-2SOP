@@ -1,8 +1,9 @@
-const dataSource = require("./dataSource");
+const { DataSource } = require("./dataSource");
+
 const productController = require("../controllers/productController");
 
 const showMain = async (req, res) => {
-  await dataSource.query(`SELECT * FROM PRODUCTS`);
+  await DataSource.query(`SELECT * FROM PRODUCTS`);
 };
 /*
 const showSpecificProduct = async (? ? ?) => {
