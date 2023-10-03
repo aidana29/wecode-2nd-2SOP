@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const signUp = async (lastName, firstName, email, password) => {
+
   if (!lastName || !firstName || !email || !password) {
     const error = new Error("KEY_ERROR");
     error.status = 400;
@@ -17,8 +18,9 @@ const signUp = async (lastName, firstName, email, password) => {
   }
 
   // Existing user check  - 이메일이 있는지 확인
-  const emailCheck = await userDao.existingUser(email);
-  if (emailCheck) {
+  const existingEmail = await userDao.existingUser(email);
+
+  if (existingEmail) {
     const error = new Error("EXISTING_USER");
     error.status = 400;
     throw error;
@@ -28,7 +30,7 @@ const signUp = async (lastName, firstName, email, password) => {
   const passwordRegex =
     /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{4,16}$/;
   if (!passwordRegex.test(password)) {
-    const error = new Error("NO_CHARACTERS");
+    const error = new Error("PASSWORD_NO_CHARACTERS");
     error.status = 400;
     throw error;
   }
