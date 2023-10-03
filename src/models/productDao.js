@@ -1,3 +1,4 @@
+const { Timestamp } = require("typeorm");
 const { myDataSource } = require("./dataSource");
 
 const showMain = async () => {
@@ -13,16 +14,20 @@ const showMain = async () => {
 const showSpecificProduct = async (productId) => {
   console.log(productId)
   const [data]= await myDataSource.query(
-    `SELECT * FROM PRODUCT, PRODUCT_IMAGE WHERE PRODUCT.ID = ${productId} `
+    `SELECT * FROM PRODUCT, PRODUCT_IMAGE, PRODUCT_INFO 
+    WHERE PRODUCT.ID = ${productId}
+    AND PRODUCT_INFO.PRODUCT_ID = ${productId} `
   )//중괄호없으면 에러남 왜죠? 달러만있으면안되남
   console.log(data)
+  console.log(Timestamp);
   return [data];
 
 };
 const showCategory = async(category) => {
   const data = await myDataSource.query(
-    `SELECT * FROM PRODUCT`
+    `SELECT * FROM PRODUCT WHERE 2`
   )
+  return data;
 }
 module.exports = {
   showMain,

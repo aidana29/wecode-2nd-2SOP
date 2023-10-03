@@ -4,7 +4,7 @@ const productRouter = express.Router();
 
 
 productRouter.get("/", productController.showMain);
-productRouter.get("/c/:category/:secondCategory/:productId", productController.showSpecificProduct);
-productRouter.get("/c/:category", productController.showCategory);
+productRouter.get("/:category/:secondCategory/:productId", productController.showSpecificProduct);
+productRouter.get("/:category", productController.showCategory);
 
 module.exports = { productRouter };
