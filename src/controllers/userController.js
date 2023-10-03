@@ -5,8 +5,10 @@ const signUp = async (req, res) => {
   try {
     const { lastName, firstName, email, password } = req.body;
     await userService.signUp(lastName, firstName, email, password);
-    } catch {
     res.status(201).json({ message: "USER_CREATED" });
+  } catch {
+    console.log("error", error);
+    res.status(error.status).json({ message: error.message });
   }
 };
 
@@ -14,11 +16,13 @@ const signIn = async (req, res) => {
   try {
     const { email, password } = req.body;
     const token = await userService.signIn(email, password);
-  } catch {
     res.status(200).json({
       message: "LOGIN_SUCCESS",
       token,
     });
+  } catch {
+    console.log("error", error);
+    res.status(error.status).json({ message: error.message });
   }
 };
 
