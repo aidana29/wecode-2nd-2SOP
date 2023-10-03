@@ -45,4 +45,15 @@ const deleteCartsDao = async (productId) => {
   //     }
 };
 
-module.exports = { findCartIndex, showCart, addInCart, deleteCartsDao };
+const cartDataFix = async (cartId, cartData) => {
+  await myDataSource.query(`
+  SELECT`);
+};
+
+module.exports = {
+  findCartIndex,
+  showCart,
+  addInCart,
+  deleteCartsDao,
+  cartDataFix,
+};
