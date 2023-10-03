@@ -1,17 +1,23 @@
-const productDao = require("../models");
+const {productDao} = require("../models");
 
-const showMain = (req, res) => {
-  //함수 컨벤션 확인 부탁드려요
+const showMain = async(req, res) => {
   /*
-    // 비밀번호 number, 소문자, 대문자, 특수문자, 5자 이상
-    const passwordRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.*).$/
+  const showMain = await productDao.showMain(req,res);
+  if (!res) {
+    const error = new Error("NO PRODUCT");
+    error.status = 400;
+    throw error;
+  }*/
+  console.log("service-he")
+  // const ans = await productDao.showMain(req,res);//231002return을 어떻게 하는지
+  return await productDao.showMain(req,res);
+};
+const showSpecificProduct = async(productId) => {
+  return await productDao.showSpecificProduct(productId);
 
-    if (!passwordRegex.test(password)) {
-        const error = new Error ("NO_CHARACTERS")
-        error.status = 400
-        throw error
-    }
-*/
 };
 
-module.exports = { showMain };
+module.exports = { 
+  showMain,
+  showSpecificProduct
+ };

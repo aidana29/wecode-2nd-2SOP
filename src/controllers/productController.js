@@ -1,17 +1,33 @@
-const productService = require("../services");
+const {productService}= require("../services");
 
 const showMain = async (req, res) => {
-  const { lastName, firstName, email, password } = req.body;
-
-  if (!lastName || !firstName || !email || !password) {
-    const error = new Error("KEY_ERROR");
-    error.status = 400;
-    throw error;
+  try {
+    //console.log(req)
+    //console.log("params",req.params)
+    const data = await productService.showMain(req,res);
+    //console.log(data);
+    res.status(201).json({
+       message:"PRODUCT MESSAGE CREATED",
+       data:data
+    });
+  } catch (error) {
+    console.log("error", error);
+    res.status(error.status).json({ message: error.message });
   }
 
-  await userService.signUp(lastName, firstName, email, password);
+};
+const showSpecificProduct = async (req,res) => {
+  const { category,secondCategory,productId } = req.params;
 
-  res.status(201).json({ message: "USER_CREATED" });
+  console.log("콘솔",productId);
+ const data = await productService.showSpecificProduct(productId);
+
+  res.status(201).json({ 
+    message: "show specific product",
+    data:data });
 };
 
-module.exports = { showMain };
+module.exports = {
+  showMain,
+  showSpecificProduct,
+};
