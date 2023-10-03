@@ -5,8 +5,10 @@ const signUp = async (req, res) => {
   try {
     const { lastName, firstName, email, password } = req.body;
     await userService.signUp(lastName, firstName, email, password);
-    res.status(201).json({ message: "USER_CREATED" });
-  } catch {
+    res.status(201).json({
+      message: "USER_CREATED",
+    });
+  } catch (error) {
     console.log("error", error);
     res.status(error.status).json({ message: error.message });
   }
@@ -20,7 +22,7 @@ const signIn = async (req, res) => {
       message: "LOGIN_SUCCESS",
       token,
     });
-  } catch {
+  } catch (error) {
     console.log("error", error);
     res.status(error.status).json({ message: error.message });
   }
