@@ -2,8 +2,9 @@ const { cartService } = require("../services");
 
 const cartItem = async (req, res) => {
   try {
+    const { cartId } = req.body;
     const { productId, selectIndex, quantity } = req.body; //selectIndex는 size를 의미함
-    cartService.cartItem(productId, selectIndex, quantity);
+    cartService.cartItem(cartId, productId, selectIndex, quantity);
   } catch (error) {
     console.log("error", error);
     res.status(error.status).json({ message: error.message });

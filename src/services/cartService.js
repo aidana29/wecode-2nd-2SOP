@@ -4,10 +4,10 @@ const { cartDao } = require("../models");
 //   console.log("hi");
 // };
 
-const cartItem = async (productId, selectIndex, quantity) => {
+const cartItem = async (cartId, productId, selectIndex, quantity) => {
   //카트id가 user_id와 일치하는지
   const exProducts = await cartDao.findCartIndex(userId);
-  await cartDao.addInCart(productId, exProducts, quantity);
+  await cartDao.addInCart(cartId, productId, selectIndex, quantity);
 };
 
 const cartGet = async () => {
