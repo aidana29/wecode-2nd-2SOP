@@ -17,9 +17,10 @@ const existingUser = async (email) => {
 
 const findUserById = async (userId) => {
   const userById = await myDataSource.query(
-    `SELECT id FROM users WHERE id = ?`, [userId]
+    `SELECT id FROM users WHERE id = ?`,
+    [userId]
   );
-  return userById
-}
+  return userById;
+};
 
 module.exports = { signUp, existingUser, findUserById };
