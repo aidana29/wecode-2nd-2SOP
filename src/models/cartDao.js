@@ -53,7 +53,7 @@ const cartDataFix = async (cartId, cartData) => {
 };
 
 module.exports = {
-  findCartIndex,
+  // findCartIndex,
   showCart,
   addInCart,
   deleteCartsDao,

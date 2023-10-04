@@ -2,7 +2,7 @@ const { myDataSource } = require("./dataSource");
 
 const signUp = async (lastName, firstName, email, password) => {
   await myDataSource.query(
-    `INSERT INTO users (lastname, firstname, email, password) VALUES (?, ?, ?, ?)`,
+    `INSERT INTO users (last_name, first_name, email, password) VALUES (?, ?, ?, ?)`,
     [lastName, firstName, email, password]
   );
 };
