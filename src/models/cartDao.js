@@ -11,11 +11,10 @@ const { myDataSource } = require("./dataSource");
 // 회원가입시 유저한명에 카트가 생긴다.
 const addInCart = async (userId, productId, price) => {
   await myDataSource.query(`
-  INSERT INTO carts (user_id)
-  SELECT id
-  FROM users
-  WHERE id = ${userId};  
-    `);
+  UPDATE carts
+  SET status = 1
+  WHERE user_id = ${userId};
+  `);
   // const cart_id = findCartIndex(req.user_id);
   await myDataSource.query(`
     INSERT INTO cart_items (product_id,cart_is,price,quntity) VALUE
