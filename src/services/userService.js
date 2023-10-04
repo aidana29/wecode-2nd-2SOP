@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const signUp = async (lastName, firstName, email, password) => {
-
   if (!lastName || !firstName || !email || !password) {
     const error = new Error("KEY_ERROR");
     error.status = 400;
@@ -77,6 +76,6 @@ const findUserId = async (userId) => {
     error.status = 400;
     throw error;
   }
-}
+};
 
 module.exports = { signUp, signIn, findUserId };
