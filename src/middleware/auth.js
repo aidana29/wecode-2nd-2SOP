@@ -6,8 +6,6 @@ const { SECRET } = process.env;
 
 const validateToken = async (req, res, next) => {
   try {
-    if (!token) {
-      throwError(401, "UNAUTHORIZED");
     }
     let userId;
     try {
@@ -21,7 +19,8 @@ const validateToken = async (req, res, next) => {
     req.userId = userId; // request 객체에 새로운 키값에 찾아진 유저의 정보를 할당하고
     next(); // next() 함수로 다음 미들웨어로 맥락(context)를 연결합니다.
   } catch (error) {
-    next(error);
+    // next(error);
+    console.log("error")
   }
 };
 
