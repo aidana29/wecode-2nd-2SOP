@@ -1,19 +1,21 @@
 const { myDataSource } = require("./dataSource");
 
-const findCartIndex = async (user_id) => {
-  const userId = await myDataSource.query(`
-    SELECT id
-    FROM user_id = ${user_id}
-`);
-  return userId;
-};
-
+// const findCartIndex = async (user_id) => {
+//   const userId = await myDataSource.query(`
+//     SELECT id
+//     FROM user_id = ${user_id}
+// `);
+//   return userId;
+// };
+// 카트 번호는 user id와 동일하다.
+// 회원가입시 유저한명에 카트가 생긴다.
 const addInCart = async (userId, productId, price) => {
   await myDataSource.query(`
-    INSERT INTO carts (user_id) VALUE
-    (${userId});
-    `);
-  const cart_id = findCartIndex(req.user_id);
+  UPDATE carts
+  SET status = 1
+  WHERE user_id = ${userId};
+  `);
+  // const cart_id = findCartIndex(req.user_id);
   await myDataSource.query(`
     INSERT INTO cart_items (product_id,cart_is,price,quntity) VALUE
     (${productId}, ${cart_id}, ${price}, 1);
@@ -45,4 +47,15 @@ const deleteCartsDao = async (productId) => {
   //     }
 };
 
-module.exports = { findCartIndex, showCart, addInCart, deleteCartsDao };
+const cartDataFix = async (cartId, cartData) => {
+  await myDataSource.query(`
+  SELECT`);
+};
+
+module.exports = {
+  findCartIndex,
+  showCart,
+  addInCart,
+  deleteCartsDao,
+  cartDataFix,
+};
