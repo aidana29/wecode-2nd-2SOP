@@ -6,7 +6,6 @@ const { SECRET } = process.env;
 
 const validateToken = async (req, res, next) => {
   try {
-    }
     let userId;
     try {
       const decoded = jwt.verify(token, SECRET); // 암호화된 토큰을 복호화 합니다.
@@ -20,7 +19,7 @@ const validateToken = async (req, res, next) => {
     next(); // next() 함수로 다음 미들웨어로 맥락(context)를 연결합니다.
   } catch (error) {
     // next(error);
-    console.log("error")
+    console.log("error");
   }
 };
 
