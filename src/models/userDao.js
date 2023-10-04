@@ -1,19 +1,18 @@
-const { DataSource } = require("./dataSource");
+const { myDataSource } = require("./dataSource");
 
-const signUp = async (lastName, firstName, email, password, phoneNumber) => {
-  await DataSource.query(
-    `INSERT INTO users (last_name, first_name, email, password, phone_number) VALUES (?, ?, ?, ?, ?)`,
-    [lastName, firstName, email, password, phoneNumber]
+const signUp = async (lastName, firstName, email, password) => {
+  await myDataSource.query(
+    `INSERT INTO users (lastname, firstname, email, password) VALUES (?, ?, ?, ?)`,
+    [lastName, firstName, email, password]
   );
 };
 
 const existingUser = async (email) => {
-  const [emailCheck] = await DataSource.query(
+  const [existingEmail] = await myDataSource.query(
     `SELECT * FROM users WHERE email = ?`,
     [email]
   );
-  console.log(emailCheck);
-  return emailCheck;
+  return existingEmail;
 };
 
 module.exports = { signUp, existingUser };

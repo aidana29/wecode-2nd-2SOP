@@ -1,8 +1,15 @@
-const userDao = require("../models");
+const { userDao } = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const signUp = async (lastName, firstName, email, password, phoneNumber) => {
+const signUp = async (lastName, firstName, email, password) => {
+
+  if (!lastName || !firstName || !email || !password) {
+    const error = new Error("KEY_ERROR");
+    error.status = 400;
+    throw error;
+  }
+
   const emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
   if (!emailRegex.test(email)) {
     const error = new Error("INVALID_EMAIL");
@@ -11,8 +18,9 @@ const signUp = async (lastName, firstName, email, password, phoneNumber) => {
   }
 
   // Existing user check  - 이메일이 있는지 확인
-  const emailCheck = await userDao.existingUser(email);
-  if (emailCheck) {
+  const existingEmail = await userDao.existingUser(email);
+
+  if (existingEmail) {
     const error = new Error("EXISTING_USER");
     error.status = 400;
     throw error;
@@ -22,7 +30,7 @@ const signUp = async (lastName, firstName, email, password, phoneNumber) => {
   const passwordRegex =
     /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*\W)(?!.* ).{4,16}$/;
   if (!passwordRegex.test(password)) {
-    const error = new Error("NO_CHARACTERS");
+    const error = new Error("PASSWORD_NO_CHARACTERS");
     error.status = 400;
     throw error;
   }
@@ -31,16 +39,16 @@ const signUp = async (lastName, firstName, email, password, phoneNumber) => {
   const saltRounds = 10;
   const encodedPassword = await bcrypt.hash(password, saltRounds);
 
-  await userDao.signUp(
-    lastName,
-    firstName,
-    email,
-    encodedPassword,
-    phoneNumber
-  );
+  await userDao.signUp(lastName, firstName, email, encodedPassword);
 };
 
 const signIn = async (email, password) => {
+  if (!email || !password) {
+    const error = new Error("KEY_ERROR");
+    error.status = 400;
+    throw error;
+  }
+
   const existingUser = await userDao.existingUser(email);
   if (!existingUser) {
     const error = new Error("NOT_REGISTERED");
@@ -56,7 +64,7 @@ const signIn = async (email, password) => {
     throw error;
   }
 
-  const token = jwt.sign({ userId: existingUser.id }, "secret");
+  const token = jwt.sign({ userId: existingUser.id }, process.env.SECRET);
 
   return { token };
 };
