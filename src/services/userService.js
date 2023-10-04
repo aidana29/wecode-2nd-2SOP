@@ -69,4 +69,14 @@ const signIn = async (email, password) => {
   return { token };
 };
 
-module.exports = { signUp, signIn };
+const findUserId = async (userId) => {
+  const userById = await userDao.findUserById(userId);
+
+  if (!userById) {
+    const error = new Error("NO_USER_ID");
+    error.status = 400;
+    throw error;
+  }
+}
+
+module.exports = { signUp, signIn, findUserId };
