@@ -1,4 +1,4 @@
-const orderService = require("../services");
+const { orderService } = require("../services");
 const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth")
 
@@ -12,7 +12,7 @@ const order = async (req, res) => {
     const { cartId, shipmentDate, address, city, state, country, zipCode } =
       req.body;
     const token = req.headers.authorization;
-    const userId = await auth.validateToken(token)
+    const { userId } = req.userId
 
     await orderService.orderCheck(
       token,

@@ -1,6 +1,6 @@
 const { myDataSource } = require("./dataSource");
 
-const orderToDb = async (userId, productId) => {
+const orderToDb = async (userId, cartId) => {
   await myDataSource.query(
     `INSERT INTO order (user_id, product_id) VALUES ?, ?`,
     [userId, cartId]

@@ -1,6 +1,9 @@
-const orderDao = require("../models/orderDao");
+const { orderDao } = require("../models");
 
 const orderCheck = async (userId, cartId, shipmentDate, address, city, state, country, zipCode) => {
+
+  console.log(shipmentDate,address, city, state, country, zipCode )
+
 
   if (!shipmentDate || !address || !city || !state || !country || !zipCode) {
     const error = new Error("SHIPMENT_NOT_FOUND");

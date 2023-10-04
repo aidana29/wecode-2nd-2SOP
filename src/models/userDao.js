@@ -15,4 +15,11 @@ const existingUser = async (email) => {
   return existingEmail;
 };
 
-module.exports = { signUp, existingUser };
+const findUserById = async (userId) => {
+  const userById = await myDataSource.query(
+    `SELECT id FROM users WHERE id = ?`, [userId]
+  );
+  return userById
+}
+
+module.exports = { signUp, existingUser, findUserById };
