@@ -11,11 +11,10 @@ const order = async (req, res) => {
   try {
     const { cartId, shipmentDate, address, city, state, country, zipCode } =
       req.body;
-    const token = req.headers.authorization;
-    const { userId } = req.userId
+
+    const userId = req.userId
 
     await orderService.orderCheck(
-      token,
       userId,
       cartId,
       shipmentDate,
@@ -26,8 +25,8 @@ const order = async (req, res) => {
       zipCode
     );
 
-    const orderItems = orderService.orderItems(cartId)
-
+    const orderItems = await orderService.orderItems(cartId)
+    console.log("1", orderItems)
     res.status(201).json({
         message: "ORDER_CREATED",
         orderItems
