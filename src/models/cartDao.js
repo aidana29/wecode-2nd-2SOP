@@ -7,13 +7,21 @@ const findCartIndex = async (user_id) => {
 `);
   return userId;
 };
-
+const createCart = async (userId) => {
+  await myDataSource.query(`
+  INSERT INTO carts (user_id) 
+  VALUES (${userId});
+  `);
+  const cartId = await myDataSource.query(`SELECT LAST_INSERT_ID();`);
+  return cartId;
+};
 const addInCart = async (userId, productId, price) => {
   await myDataSource.query(`
-    INSERT INTO carts (user_id) VALUE
-    (${userId});
-    `);
-  const cart_id = findCartIndex(req.user_id);
+  UPDATE carts
+  SET status = 1
+  WHERE user_id = ${userId};
+  `);
+  // const cart_id = findCartIndex(req.user_id);
   await myDataSource.query(`
     INSERT INTO cart_items (product_id,cart_is,price,quntity) VALUE
     (${productId}, ${cart_id}, ${price}, 1);
@@ -45,4 +53,16 @@ const deleteCartsDao = async (productId) => {
   //     }
 };
 
-module.exports = { findCartIndex, showCart, addInCart, deleteCartsDao };
+const cartDataFix = async (cartId, cartData) => {
+  await myDataSource.query(`
+  SELECT`);
+};
+
+module.exports = {
+  // findCartIndex,
+  showCart,
+  addInCart,
+  deleteCartsDao,
+  cartDataFix,
+  createCart,
+};

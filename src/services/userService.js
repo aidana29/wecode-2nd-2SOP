@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const signUp = async (lastName, firstName, email, password) => {
-
   if (!lastName || !firstName || !email || !password) {
     const error = new Error("KEY_ERROR");
     error.status = 400;
@@ -69,4 +68,14 @@ const signIn = async (email, password) => {
   return { token };
 };
 
-module.exports = { signUp, signIn };
+const findUserId = async (userId) => {
+  const userById = await userDao.findUserById(userId);
+
+  if (!userById) {
+    const error = new Error("NO_USER_ID");
+    error.status = 400;
+    throw error;
+  }
+};
+
+module.exports = { signUp, signIn, findUserId };
