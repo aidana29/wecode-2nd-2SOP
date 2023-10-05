@@ -20,6 +20,7 @@ const signIn = async (req, res) => {
     const { token } = await userService.signIn(email, password);
     res.status(200).json({
       message: "LOGIN_SUCCESS",
+    feature/cart_dao
       token: token,
     });
   } catch (error) {
