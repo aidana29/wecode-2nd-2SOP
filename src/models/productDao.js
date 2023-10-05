@@ -1,6 +1,9 @@
 const { Timestamp } = require("typeorm");
 const { myDataSource } = require("./dataSource");
 
+
+
+
 const showMain = async () => {
   console.log("dao-showMain")
   const data = await myDataSource.query(
@@ -14,9 +17,9 @@ const showMain = async () => {
     );
   console.log(data);
   return data;
-
 };
 const showSpecificProduct = async (productId) => {
+
   console.log(productId)
   // const [data]= await myDataSource.query(
   //   `SELECT * FROM PRODUCTS, PRODUCT_IMAGE, PRODUCT_INFO 
@@ -79,4 +82,3 @@ module.exports = {
   showSpecificProduct,
   showCategory
 };
-
