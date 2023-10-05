@@ -1,5 +1,5 @@
 -- migrate:up
-CREATE TABLE PRODUCT_SIZE_IMAGE (   --새로운 테이블 생성
+CREATE TABLE PRODUCT_SIZE_IMAGE (
     id INT NOT NULL AUTO_INCREMENT,
     product_id INT,
     product_size VARCHAR(255),
