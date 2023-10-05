@@ -19,11 +19,31 @@ const createCart = async (userId) => {
   return cartId.insertId;
 };
 
-const addInCart = async (cartId, productId, price) => {
-  await myDataSource.query(`
-    INSERT INTO cart_items (product_id,cart_id,price, quantity) VALUE
-    (${productId}, ${cartId}, ${price}, 1);
-    `);
+// const addInCart = async (cartId, productId, price) => {
+//   await myDataSource.query(`
+//     INSERT INTO cart_items (product_id,cart_id,price, quantity) VALUE
+//     (${productId}, ${cartId}, ${price}, 1);
+//     `);
+// };
+
+const addInCart = async (cartId, productId, quantity) => {
+  // Check if the cart item already exists
+  const existingCartItem = await myDataSource.query(
+    `SELECT id, quantity FROM cart_items WHERE cart_id = ${cartId} AND product_id = ${productId}`
+  );
+
+  if (existingCartItem.length > 0) {
+    // If it exists, update the quantity
+    const updatedQuantity = existingCartItem[0].quantity + quantity;
+    await myDataSource.query(
+      `UPDATE cart_items SET quantity = ${updatedQuantity} WHERE id = ${existingCartItem[0].id}`
+    );
+  } else {
+    // If it doesn't exist, insert a new cart item
+    await myDataSource.query(
+      `INSERT INTO cart_items (cart_id, product_id, quantity) VALUES (${cartId}, ${productId}, ${quantity})`
+    );
+  }
 };
 
 const showCart = async (cartId) => {
