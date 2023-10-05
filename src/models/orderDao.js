@@ -22,19 +22,26 @@ const existingCartId = async (cartId) => {
  }
 
 const shipmentToDb = async (
-  shipmentDate,
-  address,
-  city,
-  state,
-  country,
-  zipCode,
   userId,
-  orderId
+  address, 
+  detailedAddress, 
+  country, 
+  firstName, 
+  lastName, 
+  phoneNumber,
+  order
 ) => {
 
   await myDataSource.query(
-    `INSERT INTO shipments (shipment_date, address, city, state, country, zip_code, user_id, order_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-    [shipmentDate, address, city, state, country, zipCode, userId, orderId]
+    `INSERT INTO shipments (user_id, address, detailed_address, country, first_name, last_name, phone_number, order_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+    [userId,
+      address, 
+      detailedAddress, 
+      country, 
+      firstName, 
+      lastName, 
+      phoneNumber,
+      order]
   );
 };
 
