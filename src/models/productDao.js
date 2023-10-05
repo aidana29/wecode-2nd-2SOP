@@ -28,20 +28,26 @@ const showSpecificProduct = async (productId) => {
     WHERE A.ID = ${productId}
     AND A.ID = B.PRODUCT_ID`
   )
-  const [product_size_data] = await myDataSource.query(
+  const product_size_data = await myDataSource.query(
     `
     SELECT * FROM PRODUCT_SIZE_IMAGE
     WHERE PRODUCT_ID = ${productId}`
   )
 
-  return (product_data,product_size_data);
+  return {product_data,product_size_data};
 
 };
 const showCategory = async(category) => {
   const data = await myDataSource.query(
-    `SELECT * FROM PRODUCTS A, PRODUCT_INFO B
-    WHERE A.2_CATEGORY = ${category}
-    AND A.ID = B.PRODUCT_ID `
+    `SELECT * 
+    FROM PRODUCTS A 
+    JOIN PRODUCT_INFO B 
+    ON A.ID = B.PRODUCT_ID
+    WHERE A.2_CATEGORY_id = (
+      SELECT id
+      FROM 1_category
+      WHERE name = '${category}'
+    );`
   )
   return data;
 }
