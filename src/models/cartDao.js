@@ -44,6 +44,13 @@ const addInCart = async (cartId, productId, quantity) => {
       `INSERT INTO cart_items (cart_id, product_id, quantity) VALUES (${cartId}, ${productId}, ${quantity})`
     );
   }
+  await myDataSource.query(`
+  UPDATE cart_items ci
+  JOIN products p ON ci.product_id = p.id
+  JOIN PRODUCT_SIZE_IMAGE psi ON p.id = psi.product_id
+  SET ci.price = psi.price
+  WHERE ci.cart_id = ${cartId};
+`);
 };
 
 const showCart = async (cartId) => {

@@ -9,13 +9,14 @@ const orderToDb = async (userId, cartId) => {
   await myDataSource.query(`
   UPDATE carts
   SET status = 1
-  WHERE id = ${userId};
+  WHERE id = ${cartId};
   `);
 };
 
 const existingCartId = async (cartId) => {
   const cart = await myDataSource.query(
-    `SELECT cart_id FROM orders WHERE cart_id = ?`,
+    `SELECT cart_id FROM orders 
+    WHERE cart_id = ?`,
     [cartId]
   );
   return cart;
