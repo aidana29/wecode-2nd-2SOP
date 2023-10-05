@@ -39,15 +39,18 @@ const showSpecificProduct = async (productId) => {
 };
 const showCategory = async(category) => {
   const data = await myDataSource.query(
-    `SELECT * 
-    FROM PRODUCTS A 
-    JOIN PRODUCT_INFO B 
-    ON A.ID = B.PRODUCT_ID
+    `SELECT A.*, B.*
+    FROM PRODUCTS A
+    JOIN (
+        SELECT *,
+               ROW_NUMBER() OVER (PARTITION BY PRODUCT_ID ORDER BY ID DESC) AS rn
+        FROM PRODUCT_SIZE_IMAGE
+    ) B ON A.ID = B.PRODUCT_ID
     WHERE A.2_CATEGORY_id = (
-      SELECT id
-      FROM 1_category
-      WHERE name = '${category}'
-    );`
+        SELECT id
+        FROM 1_category
+        WHERE name = $'{CATEGORY}'
+    ) AND B.rn = 1;`
   )
   return data;
 }
