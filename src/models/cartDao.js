@@ -1,9 +1,10 @@
 const { myDataSource } = require("./dataSource");
 
 const findCartIndex = async (user_id) => {
-  const userId = await myDataSource.query(`
+  const [userId] = await myDataSource.query(`
     SELECT id
-    FROM user_id = ${user_id}
+    FROM users
+    WHERE id = '${user_id}';
 `);
   return userId;
 };
@@ -29,33 +30,52 @@ const addInCart = async (userId, productId, price) => {
     `);
 };
 
-const showCart = async () => {
-  await myDataSource.query(`
-    SELECT 
-    cart_items.cart_id,
-    cart_items.price,
-    cart_items.quntity,
-    cart_items.product_id,
-    cart.id FROM
-    cart.id = cart_items.cart_id;
+const showCart = async (cartId) => {
+  const data = await myDataSource.query(`
+  SELECT 
+    carts.id AS cartId,
+    cart_items.product_id AS productId,
+    products.name AS productName,
+    PRODUCT_SIZE_IMAGE.product_image AS productImage,
+    PRODUCT_SIZE_IMAGE.product_size AS size,
+    cart_items.price AS price,
+    cart_items.quantity As quantity
+  FROM
+    cart_items
+  JOIN
+    carts ON carts.id = cart_items.cart_id
+  JOIN
+    products ON cart_items.product_id = products.id
+  JOIN
+    PRODUCT_SIZE_IMAGE ON products.id = PRODUCT_SIZE_IMAGE.product_id
+  WHERE
+    cart_items.cart_id = ${cartId};
+  `);
+  return data;
+};
+
+const deleteCartsDao = async (cartId, productId) => {
+  try {
+    await myDataSource.query(`
+      DELETE FROM cart_items
+      WHERE cart_id = ${cartId} AND product_id = ${productId};
     `);
+  } catch (err) {
+    const error = new Error("Error Dao");
+    error.statusCode = 500;
+    throw error;
+  }
 };
 
-const deleteCartsDao = async (productId) => {
-  //     try {
-  //         await myDataSource.query(`
-  //         SELETE FROM cart WHERE product_id =??` , [productId]
-  //         );
-  //     } catch (err) {
-  //         const error = new Error ("Error Dao");
-  //         error.statusCode = 500;
-  //         throw error;
-  //     }
-};
-
-const cartDataFix = async (cartId, cartData) => {
+const cartDataFix = async (cartId, quantity, productId) => {
   await myDataSource.query(`
-  SELECT`);
+  UPDATE cart_items
+  SET quantity = ${quantity}
+  WHERE cart_id = ${cartId}
+  AND product_id = ${productId};
+  `);
+
+  return await showCart(cartId);
 };
 
 module.exports = {
@@ -65,4 +85,5 @@ module.exports = {
   deleteCartsDao,
   cartDataFix,
   createCart,
+  findCartIndex,
 };
