@@ -14,7 +14,5 @@ ALTER TABLE `products`
 DROP COLUMN `price`,
 DROP COLUMN `size`;
 
-
-
 -- migrate:down
 
