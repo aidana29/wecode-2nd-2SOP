@@ -7,8 +7,7 @@ const orderPayment = async (req, res) => {
     await paymentService.orderPayment(userId, orderId, address, totalPrice);
     res.status(200).json({ message: "ORDER_SUCCESS" });
   } catch (error) {
-    // res.status(error.status).json({ message: error.message });
-    res.status(400).json({ message: "ererererere!!" });
+    res.status(error.status).json({ message: error.message });
   }
 };
 module.exports = { orderPayment };

@@ -1,4 +1,5 @@
 const { cartDao } = require("../models");
+const { throwError } = require("../utilities/throwError");
 
 const cartItem = async (userId, productId, quantity) => {
   //카트id가 user_id와 일치하는지
