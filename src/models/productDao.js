@@ -4,8 +4,13 @@ const { myDataSource } = require("./dataSource");
 const showMain = async () => {
   console.log("dao-showMain")
   const data = await myDataSource.query(
-    `select A.*, B.img_url From products A, product_image B 
-    where A.id = B.product_id`
+    `SELECT A.*, B.PRODUCT_IMAGE 
+    FROM products A 
+    JOIN (
+        SELECT product_id, MAX(PRODUCT_IMAGE) AS PRODUCT_IMAGE
+        FROM PRODUCT_SIZE_IMAGE
+        GROUP BY product_id
+    ) B ON A.id = B.product_id;`
     );
   console.log(data);
   return data;
@@ -13,18 +18,30 @@ const showMain = async () => {
 };
 const showSpecificProduct = async (productId) => {
   console.log(productId)
-  const [data]= await myDataSource.query(
-    `SELECT * FROM PRODUCTS, PRODUCT_IMAGE, PRODUCT_INFO 
-    WHERE PRODUCT.ID = ${productId}
-    AND PRODUCT_INFO.PRODUCT_ID = ${productId} `
-  )//중괄호없으면 에러남 왜죠? 달러만있으면안되남
-  console.log(data)
-  return [data];
+  // const [data]= await myDataSource.query(
+  //   `SELECT * FROM PRODUCTS, PRODUCT_IMAGE, PRODUCT_INFO 
+  //   WHERE PRODUCTS.ID = ${productId}
+  //   AND PRODUCT_INFO.PRODUCT_ID = ${productId} `
+  // )//중괄호없으면 에러남 왜죠? 달러만있으면안되남
+  const product_data = await myDataSource.query(
+    `SELECT * FROM PRODUCTS A, PRODUCT_INFO B
+    WHERE A.ID = ${productId}
+    AND A.ID = B.PRODUCT_ID`
+  )
+  const [product_size_data] = await myDataSource.query(
+    `
+    SELECT * FROM PRODUCT_SIZE_IMAGE
+    WHERE PRODUCT_ID = ${productId}`
+  )
+
+  return (product_data,product_size_data);
 
 };
 const showCategory = async(category) => {
   const data = await myDataSource.query(
-    `SELECT * FROM PRODUCT WHERE `
+    `SELECT * FROM PRODUCTS A, PRODUCT_INFO B
+    WHERE A.2_CATEGORY = ${category}
+    AND A.ID = B.PRODUCT_ID `
   )
   return data;
 }
