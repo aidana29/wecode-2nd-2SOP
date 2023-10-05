@@ -1,6 +1,6 @@
 const { orderService } = require("../services");
 const jwt = require("jsonwebtoken");
-const auth = require("../middleware/auth")
+const auth = require("../middleware/auth");
 
 // front가 보내주는 정보: token, cart_id(카트), shipment
 // auth를 통해 token verify (return하는 게 - userId, validateToken을 통해서 userService에서 확인)
@@ -9,28 +9,35 @@ const auth = require("../middleware/auth")
 
 const order = async (req, res) => {
   try {
-    const { cartId, shipmentDate, address, city, state, country, zipCode } =
-      req.body;
+    const {
+      cartId,
+      address,
+      detailedAddress,
+      country,
+      firstName,
+      lastName,
+      phoneNumber,
+    } = req.body;
 
-    const userId = req.userId
+    const userId = req.userId;
 
     await orderService.orderCheck(
       userId,
       cartId,
-      shipmentDate,
       address,
-      city,
-      state,
+      detailedAddress,
       country,
-      zipCode
+      firstName,
+      lastName,
+      phoneNumber
     );
 
-    const orderItems = await orderService.orderItems(cartId)
-    console.log("1", orderItems)
+    const orderItems = await orderService.orderItems(cartId);
+    console.log("1", orderItems);
     res.status(201).json({
-        message: "ORDER_CREATED",
-        orderItems
-      });
+      message: "ORDER_CREATED",
+      orderItems,
+    });
   } catch (error) {
     console.log("error", error);
     res.status(error.status).json({ message: error.message });
