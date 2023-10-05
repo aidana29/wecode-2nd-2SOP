@@ -38,20 +38,40 @@ const showSpecificProduct = async (productId) => {
 
 };
 const showCategory = async(category) => {
-  const data = await myDataSource.query(
-    `SELECT A.*, B.*
-    FROM PRODUCTS A
-    JOIN (
-        SELECT *,
-               ROW_NUMBER() OVER (PARTITION BY PRODUCT_ID ORDER BY ID DESC) AS rn
-        FROM PRODUCT_SIZE_IMAGE
-    ) B ON A.ID = B.PRODUCT_ID
-    WHERE A.2_CATEGORY_id = (
-        SELECT id
-        FROM 1_category
-        WHERE name = $'{CATEGORY}'
-    ) AND B.rn = 1;`
-  )
+  console.log(category)
+  // const data = await myDataSource.query(
+  //   `SELECT * FROM PRODUCTS ,product_size_image 
+  //   WHERE PRODUCT_ID IN ( 
+  //     SELECT id FROM products WHERE 2_category_id = ( 
+  //       SELECT id FROM 1_category WHERE name = ? ) ) 
+  //       AND PRODUCTS.ID = PRODUCT_SIZE_IMAGE.PRODUCT_ID`,
+  //       [category]
+//   // )
+  const product_data = await myDataSource.query(`
+  SELECT * 
+FROM products 
+WHERE 2_category_id IN (SELECT id 
+             FROM 1_category 
+             WHERE name = ?)
+             `,[category])
+    const length = product_data.length
+//console.log(product_data)
+console.log(length)
+const data = []
+for(let i = 0; i < length;i++){
+  const product_size_image = await myDataSource.query(`
+
+  SELECT *
+  
+  FROM product_size_image
+  
+  WHERE product_id = ?`,[product_data[i].id])
+  data.push({
+    product: product_data[i],
+    product_size_image: product_size_image
+  });
+}
+  
   return data;
 }
 module.exports = {
