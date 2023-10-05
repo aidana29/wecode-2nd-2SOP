@@ -64,7 +64,6 @@ const signIn = async (email, password) => {
   }
 
   const token = jwt.sign({ userId: existingUser.id }, process.env.SECRET);
-
   return token;
 };
 
