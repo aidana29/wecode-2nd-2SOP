@@ -1,32 +1,28 @@
 const { myDataSource } = require("./dataSource");
 
 const findCartIndex = async (user_id) => {
-  const [userId] = await myDataSource.query(`
+  const [cartId] = await myDataSource.query(`
     SELECT id
-    FROM users
-    WHERE id = '${user_id}';
+    FROM carts
+    WHERE user_id = '${user_id}' AND status = 0;
 `);
-  return userId;
+  return cartId.id;
 };
 const createCart = async (userId) => {
   await myDataSource.query(`
   INSERT INTO carts (user_id) 
   VALUES (${userId});
   `);
-  const cartId = await myDataSource.query(`SELECT LAST_INSERT_ID();`);
-  return cartId;
+  const [cartId] = await myDataSource.query(
+    `SELECT LAST_INSERT_ID() AS insertId;`
+  );
+  return cartId.insertId;
 };
-const addInCart = async (userId, productId, price) => {
+
+const addInCart = async (cartId, productId, price) => {
   await myDataSource.query(`
-  UPDATE carts
-  SET status = 1
-  WHERE user_id = ${userId};
-  `);
-  // const cart_id = findCartIndex(req.user_id);
-  await myDataSource.query(`
-    INSERT INTO cart_items (product_id,cart_is,price,quntity) VALUE
-    (${productId}, ${cart_id}, ${price}, 1);
-    
+    INSERT INTO cart_items (product_id,cart_id,price, quantity) VALUE
+    (${productId}, ${cartId}, ${price}, 1);
     `);
 };
 
