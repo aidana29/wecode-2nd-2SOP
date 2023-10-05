@@ -1,6 +1,6 @@
 const { myDataSource } = require("./dataSource");
 
-const orderPayment = async (userId, orderId, address) => {
+const orderPayment = async (userId, orderId, address, totalPrice) => {
   myDataSource.query(`
     INSERT INTO payments (   
         user_id, 
@@ -15,6 +15,11 @@ const orderPayment = async (userId, orderId, address) => {
         'credit'
         );
     `);
+    myDataSource.query{`
+    UPDATE users
+    SET credits = credits - ${totalPrice}
+    WHERE id = ${userId};
+`}
 };
 
 const foundCartId = async (userId) => {
