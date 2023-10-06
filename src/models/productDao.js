@@ -7,7 +7,7 @@ const { myDataSource } = require("./dataSource");
 const showMain = async () => {
   console.log("dao-showMain")
   const data = await myDataSource.query(
-    `SELECT A.ID, A.name,  
+    `SELECT A.id, A.name,  
     (SELECT name FROM 1_CATEGORY WHERE ID = A.2_category_id) as productCategory,
     A.description, B.PRODUCT_IMAGE 
     FROM products A 

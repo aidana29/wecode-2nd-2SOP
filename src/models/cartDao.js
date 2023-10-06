@@ -1,12 +1,15 @@
 const { myDataSource } = require("./dataSource");
 
 const findCartIndex = async (user_id) => {
-  const [cartId] = await myDataSource.query(`
+  console.log("findcartindex",user_id)
+
+  const {cartId} = await myDataSource.query(`
     SELECT id
     FROM carts
     WHERE user_id = '${user_id}' AND status = 0;
 `);
-  return cartId.id;
+//console.log("dao",cartId);
+  return cartId;
 };
 const createCart = async (userId) => {
   await myDataSource.query(`
@@ -26,10 +29,11 @@ const createCart = async (userId) => {
 //     `);
 // };
 
-const addInCart = async (cartId, productId, quantity) => {
+const addInCart = async (cartId, productId, id,quantity) => {
   // Check if the cart item already exists
   const existingCartItem = await myDataSource.query(
-    `SELECT id, quantity FROM cart_items WHERE cart_id = ${cartId} AND product_id = ${productId}`
+    `SELECT id, quantity FROM cart_items 
+    WHERE cart_id = ${cartId} AND product_id = ${productId}`
   );
 
   if (existingCartItem.length > 0) {
@@ -40,8 +44,13 @@ const addInCart = async (cartId, productId, quantity) => {
     );
   } else {
     // If it doesn't exist, insert a new cart item
+    const price = await myDataSource.query(
+      `SELECT price FROM product_size_image 
+      WHERE product_id = ${productId} and id = ${id}`
+    );
     await myDataSource.query(
-      `INSERT INTO cart_items (cart_id, product_id, quantity) VALUES (${cartId}, ${productId}, ${quantity})`
+      `INSERT INTO cart_items (cart_id, product_id, price,pricequantity) 
+      VALUES (${cartId}, ${productId},${price}, ${quantity})`
     );
   }
   await myDataSource.query(`
