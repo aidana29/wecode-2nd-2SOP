@@ -7,13 +7,14 @@ const { myDataSource } = require("./dataSource");
 const showMain = async () => {
   console.log("dao-showMain")
   const data = await myDataSource.query(
-    `SELECT A.*, B.PRODUCT_IMAGE 
+    `SELECT A.ID, A.name,  
+    (SELECT name FROM 1_CATEGORY WHERE ID = A.2_category_id) as productCategory,
+    A.description, B.PRODUCT_IMAGE 
     FROM products A 
-    JOIN (
-        SELECT product_id, MAX(PRODUCT_IMAGE) AS PRODUCT_IMAGE
-        FROM PRODUCT_SIZE_IMAGE
-        GROUP BY product_id
-    ) B ON A.id = B.product_id;`
+    JOIN ( 
+      SELECT product_id, MAX(PRODUCT_IMAGE) AS PRODUCT_IMAGE
+       FROM PRODUCT_SIZE_IMAGE GROUP BY product_id ) B
+       ON A.id = B.product_id;`
     );
   console.log(data);
   return data;
@@ -27,7 +28,9 @@ const showSpecificProduct = async (productId) => {
   //   AND PRODUCT_INFO.PRODUCT_ID = ${productId} `
   // )//중괄호없으면 에러남 왜죠? 달러만있으면안되남
   const product_data = await myDataSource.query(
-    `SELECT * FROM PRODUCTS A, PRODUCT_INFO B
+    `SELECT A.ID, A.NAME,(SELECT name FROM 1_CATEGORY WHERE ID = A.2_category_id) as productCategory, 
+    A.DESCRIPTION, B.*
+    FROM PRODUCTS A, PRODUCT_INFO B
     WHERE A.ID = ${productId}
     AND A.ID = B.PRODUCT_ID`
   )
@@ -51,8 +54,8 @@ const showCategory = async(category) => {
   //       [category]
 //   // )
   const product_data = await myDataSource.query(`
-  SELECT * 
-FROM products 
+  SELECT id, name, description, (SELECT name FROM 1_CATEGORY WHERE ID = 2_category_id) as productCategory
+FROM products
 WHERE 2_category_id IN (SELECT id 
              FROM 1_category 
              WHERE name = ?)
