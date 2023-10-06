@@ -17,10 +17,10 @@ const signUp = async (req, res) => {
 const signIn = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const { token } = await userService.signIn(email, password);
+    const token = await userService.signIn(email, password);
+    console.log("token : ", token);
     res.status(200).json({
       message: "LOGIN_SUCCESS",
-    feature/cart_dao
       token: token,
     });
   } catch (error) {

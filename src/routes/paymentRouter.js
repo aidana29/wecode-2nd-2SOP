@@ -6,6 +6,7 @@ const { validateToken } = require("../middleware/auth");
 const paymentRouter = express.Router();
 
 paymentRouter.use(validateToken);
-paymentRouter.post("/", paymentController.orderPayment);
+
+paymentRouter.get("/", paymentController.orderPayment);
 
 module.exports = { paymentRouter };

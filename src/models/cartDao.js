@@ -1,33 +1,56 @@
 const { myDataSource } = require("./dataSource");
 
 const findCartIndex = async (user_id) => {
-  const [userId] = await myDataSource.query(`
+  const [cartId] = await myDataSource.query(`
     SELECT id
-    FROM users
-    WHERE id = '${user_id}';
+    FROM carts
+    WHERE user_id = '${user_id}' AND status = 0;
 `);
-  return userId;
+  return cartId.id;
 };
 const createCart = async (userId) => {
   await myDataSource.query(`
   INSERT INTO carts (user_id) 
   VALUES (${userId});
   `);
-  const cartId = await myDataSource.query(`SELECT LAST_INSERT_ID();`);
-  return cartId;
+  const [cartId] = await myDataSource.query(
+    `SELECT LAST_INSERT_ID() AS insertId;`
+  );
+  return cartId.insertId;
 };
-const addInCart = async (userId, productId, price) => {
+
+// const addInCart = async (cartId, productId, price) => {
+//   await myDataSource.query(`
+//     INSERT INTO cart_items (product_id,cart_id,price, quantity) VALUE
+//     (${productId}, ${cartId}, ${price}, 1);
+//     `);
+// };
+
+const addInCart = async (cartId, productId, quantity) => {
+  // Check if the cart item already exists
+  const existingCartItem = await myDataSource.query(
+    `SELECT id, quantity FROM cart_items WHERE cart_id = ${cartId} AND product_id = ${productId}`
+  );
+
+  if (existingCartItem.length > 0) {
+    // If it exists, update the quantity
+    const updatedQuantity = existingCartItem[0].quantity + quantity;
+    await myDataSource.query(
+      `UPDATE cart_items SET quantity = ${updatedQuantity} WHERE id = ${existingCartItem[0].id}`
+    );
+  } else {
+    // If it doesn't exist, insert a new cart item
+    await myDataSource.query(
+      `INSERT INTO cart_items (cart_id, product_id, quantity) VALUES (${cartId}, ${productId}, ${quantity})`
+    );
+  }
   await myDataSource.query(`
-  UPDATE carts
-  SET status = 1
-  WHERE user_id = ${userId};
-  `);
-  // const cart_id = findCartIndex(req.user_id);
-  await myDataSource.query(`
-    INSERT INTO cart_items (product_id,cart_is,price,quntity) VALUE
-    (${productId}, ${cart_id}, ${price}, 1);
-    
-    `);
+  UPDATE cart_items ci
+  JOIN products p ON ci.product_id = p.id
+  JOIN PRODUCT_SIZE_IMAGE psi ON p.id = psi.product_id
+  SET ci.price = psi.price
+  WHERE ci.cart_id = ${cartId};
+`);
 };
 
 const showCart = async (cartId) => {
