@@ -1,5 +1,8 @@
 const { myDataSource } = require("./dataSource");
 
+
+
+
 const showMain = async () => {
   const data = await myDataSource.query(
     `SELECT A.ID, A.name,  
@@ -13,9 +16,9 @@ const showMain = async () => {
     );
   console.log(data);
   return data;
-
 };
 const showSpecificProduct = async (productId) => {
+
   console.log(productId)
   const product_data = await myDataSource.query(
     `SELECT A.ID, A.NAME,(SELECT name FROM 1_CATEGORY WHERE ID = A.2_category_id) as productCategory, 
@@ -65,4 +68,3 @@ module.exports = {
   showSpecificProduct,
   showCategory
 };
-
