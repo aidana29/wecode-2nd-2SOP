@@ -7,7 +7,14 @@ const orderPayment = async (userId, orderId, address, totalPrice) => {
     throwError(400, "ADDRESS_ERROR"); //throwError 사용 방법 예시
   }
   // 에러핸들링 모두 통과
-  await paymentDao.orderPayment(userId, orderId, address, totalPrice);
+  console.log("ok");
+  const response = await paymentDao.orderPayment(
+    userId,
+    orderId,
+    address,
+    totalPrice
+  );
+  return response;
 };
 
 module.exports = { orderPayment };

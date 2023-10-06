@@ -1,19 +1,28 @@
 const { myDataSource } = require("./dataSource");
 
 const orderPayment = async (userId, orderId, address, totalPrice) => {
-  console.log("before query");
   await myDataSource.query(
     `
   INSERT INTO payments (user_id, order_id, address)
   VALUES (?, ?, ?)`,
     [userId, orderId, address]
   );
-  console.log("insert finish");
+  const [paymentId] = await myDataSource.query(
+    `SELECT LAST_INSERT_ID() AS insertId;`
+  );
   await myDataSource.query(`
     UPDATE users
     SET credits = credits - ${totalPrice}
     WHERE id = ${userId};
   `);
+  const [result] = await myDataSource.query(`
+  SELECT credits FROM users WHERE id = ${userId};
+  `);
+  const response = {
+    paymentId: paymentId.insertId,
+    credits: result.credits,
+  };
+  return response;
 };
 
 const foundCartId = async (userId) => {
