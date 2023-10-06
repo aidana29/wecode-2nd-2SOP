@@ -15,7 +15,7 @@ const showSpecificProduct = async(productId) => {
   return data;
 };
 
-const showCategory = async(category) => {ㄴ
+const showCategory = async(category) => {
   if(!category){
     const error = new Error("NO_EXISITNG_CATEGORY");
     error.status = 400;
