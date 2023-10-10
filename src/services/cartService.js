@@ -18,18 +18,18 @@ const cartItem = async (userId, productId,id, quantity) => {
 
 const cartGet = async (userId) => {
   const cartId = await cartDao.findCartIndex(userId);
-  console.log("cartgetservice",cartId.id)
-  return await cartDao.showCart(cartId.id);
+  console.log("cartgetservice",cartId)
+  return await cartDao.showCart(cartId);
 };
 
-const cartDelete = async (cartId, productId) => {
+const cartDelete = async (cartId, productId,id) => {
   //읽어온 정보를 바탕으로 칼럼값 삭제하기
-  await cartDao.deleteCartsDao(cartId, productId);
+  await cartDao.deleteCartsDao(cartId, productId,id);
 };
 
-const cartFix = async (cartId, quantity, productId) => {
+const cartFix = async (cartId, quantity, productId,id) => {
   //카트정보 일치하는지
-  return await cartDao.cartDataFix(cartId, quantity, productId);
+  return await cartDao.cartDataFix(cartId, quantity, productId,id);
 };
 
 module.exports = { cartItem, cartDelete, cartGet, cartFix };
