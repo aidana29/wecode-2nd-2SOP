@@ -5,13 +5,14 @@ const { myDataSource } = require("./dataSource");
 
 const showMain = async () => {
   const data = await myDataSource.query(
-    `SELECT A.*, B.PRODUCT_IMAGE 
+    `SELECT A.id, A.name,  
+    (SELECT name FROM 1_CATEGORY WHERE ID = A.2_category_id) as productCategory,
+    A.description, B.PRODUCT_IMAGE 
     FROM products A 
-    JOIN (
-        SELECT product_id, MAX(PRODUCT_IMAGE) AS PRODUCT_IMAGE
-        FROM PRODUCT_SIZE_IMAGE
-        GROUP BY product_id
-    ) B ON A.id = B.product_id;`
+    JOIN ( 
+      SELECT product_id, MAX(PRODUCT_IMAGE) AS PRODUCT_IMAGE
+       FROM PRODUCT_SIZE_IMAGE GROUP BY product_id ) B
+       ON A.id = B.product_id;`
     );
   console.log(data);
   return data;
@@ -20,7 +21,9 @@ const showSpecificProduct = async (productId) => {
 
   console.log(productId)
   const product_data = await myDataSource.query(
-    `SELECT * FROM PRODUCTS A, PRODUCT_INFO B
+    `SELECT A.ID, A.NAME,(SELECT name FROM 1_CATEGORY WHERE ID = A.2_category_id) as productCategory, 
+    A.DESCRIPTION, B.*
+    FROM PRODUCTS A, PRODUCT_INFO B
     WHERE A.ID = ${productId}
     AND A.ID = B.PRODUCT_ID`
   )
@@ -36,8 +39,8 @@ const showSpecificProduct = async (productId) => {
 const showCategory = async(category) => {
   console.log(category)
   const product_data = await myDataSource.query(`
-  SELECT * 
-FROM products 
+  SELECT id, name, description, (SELECT name FROM 1_CATEGORY WHERE ID = 2_category_id) as productCategory
+FROM products
 WHERE 2_category_id IN (SELECT id 
              FROM 1_category 
              WHERE name = ?)

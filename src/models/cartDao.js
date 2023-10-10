@@ -1,11 +1,15 @@
 const { myDataSource } = require("./dataSource");
 
 const findCartIndex = async (user_id) => {
+  console.log("findcartindex",user_id)
+
   const [cartId] = await myDataSource.query(`
     SELECT id
     FROM carts
     WHERE user_id = '${user_id}' AND status = 0;
 `);
+//console.log("dao",cartId);
+console.log(cartId.id);
   return cartId.id;
 };
 const createCart = async (userId) => {
@@ -19,17 +23,12 @@ const createCart = async (userId) => {
   return cartId.insertId;
 };
 
-// const addInCart = async (cartId, productId, price) => {
-//   await myDataSource.query(`
-//     INSERT INTO cart_items (product_id,cart_id,price, quantity) VALUE
-//     (${productId}, ${cartId}, ${price}, 1);
-//     `);
-// };
 
-const addInCart = async (cartId, productId, quantity) => {
+const addInCart = async (cartId, productId, id,quantity) => {
   // Check if the cart item already exists
   const existingCartItem = await myDataSource.query(
-    `SELECT id, quantity FROM cart_items WHERE cart_id = ${cartId} AND product_id = ${productId}`
+    `SELECT id, quantity FROM cart_items 
+    WHERE cart_id = ${cartId} AND product_size_img_id = ${id}`
   );
 
   if (existingCartItem.length > 0) {
@@ -38,10 +37,19 @@ const addInCart = async (cartId, productId, quantity) => {
     await myDataSource.query(
       `UPDATE cart_items SET quantity = ${updatedQuantity} WHERE id = ${existingCartItem[0].id}`
     );
-  } else {
+  } 
+  else {
     // If it doesn't exist, insert a new cart item
+    const price = await myDataSource.query(
+      `SELECT price FROM product_size_image 
+      WHERE product_id = ${productId} and id = ${id}`
+    );
+    console.log("price",price)
+    const product_price = price[0].price
+    console.log("product_price",product_price) 
     await myDataSource.query(
-      `INSERT INTO cart_items (cart_id, product_id, quantity) VALUES (${cartId}, ${productId}, ${quantity})`
+      `INSERT INTO cart_items (cart_id, product_id, price,quantity,product_size_img_id) 
+       VALUES (${cartId}, ${productId}, ${product_price}, ${quantity},${id})`
     );
   }
   await myDataSource.query(`
@@ -58,10 +66,11 @@ const showCart = async (cartId) => {
   SELECT 
     carts.id AS cartId,
     cart_items.product_id AS productId,
+    PRODUCT_SIZE_IMAGE.id AS id,
     products.name AS productName,
     PRODUCT_SIZE_IMAGE.product_image AS productImage,
     PRODUCT_SIZE_IMAGE.product_size AS size,
-    cart_items.price AS price,
+    PRODUCT_SIZE_IMAGE.price AS price,
     cart_items.quantity As quantity
   FROM
     cart_items
@@ -72,16 +81,20 @@ const showCart = async (cartId) => {
   JOIN
     PRODUCT_SIZE_IMAGE ON products.id = PRODUCT_SIZE_IMAGE.product_id
   WHERE
-    cart_items.cart_id = ${cartId};
+    cart_items.cart_id = ${cartId} 
+    AND product_size_image.id = cart_items.product_size_img_id;
   `);
+  console.log(data)
   return data;
 };
 
-const deleteCartsDao = async (cartId, productId) => {
+const deleteCartsDao = async (cartId, productId,id) => {
   try {
     await myDataSource.query(`
       DELETE FROM cart_items
-      WHERE cart_id = ${cartId} AND product_id = ${productId};
+      WHERE cart_id = ${cartId} 
+      AND product_id = ${productId}
+      AND product_size_img_id = ${id};
     `);
   } catch (err) {
     const error = new Error("Error Dao");
@@ -90,12 +103,13 @@ const deleteCartsDao = async (cartId, productId) => {
   }
 };
 
-const cartDataFix = async (cartId, quantity, productId) => {
+const cartDataFix = async (cartId, quantity, productId,id) => {
   await myDataSource.query(`
   UPDATE cart_items
   SET quantity = ${quantity}
   WHERE cart_id = ${cartId}
-  AND product_id = ${productId};
+  AND product_id = ${productId}
+  AND product_size_img_id = ${id};
   `);
 
   return await showCart(cartId);
