@@ -2,9 +2,11 @@
 Member registration and login, category and product pages, cart, payment
 
 ## Development Team and Duration
+
 Development Period: 
 
 September 18, 2023 - October 06, 2023
+
 
 **Front-End:**
 
@@ -98,9 +100,6 @@ Payment using points provided during registration.
 Endpoint: https://www.2sop.com/paymentcheck
 
 ### Reference
-This project was created for educational purposes, referencing the Aesop website. While it is a project at a professional level, using this code for personal gain or unauthorized distribution may have legal implications. Most of the images used in this project were purchased by WeCode, so external use is not permitted.
 
-
-
-
+This project was created for educational purposes, referencing the Aesop website. 
 
