@@ -2,7 +2,11 @@
 Member registration and login, category and product pages, cart, payment
 
 ## Development Team and Duration
-Development Period: September 18, 2023 - October 06, 2023
+
+Development Period: 
+
+September 18, 2023 - October 06, 2023
+
 
 **Front-End:**
 
@@ -26,13 +30,17 @@ Backend GitHub Link: https://github.com/wecode-bootcamp-korea/49-2nd-2SOP-backen
 Frontend GitHub Link: https://github.com/wecode-bootcamp-korea/49-2nd-2SOP-frontend
 
 ## Project Justification
-E-commerce website functionality: This project allows us to practice fundamental features such as user registration, login, product pages, shopping cart, ordering, and payment.
+E-commerce website functionality: This project allows us to practice fundamental features such as user registration, 
+login, product pages, shopping cart, ordering, and payment.
 
-Product and category management: Aesop is known for prioritizing products over marketing. The brand's website contains rich information on products and categories. Through this clone project, we can practice how to efficiently separate and store various categories and types of products' data and how to visually represent them.
+Product and category management: Aesop is known for prioritizing products over marketing. 
+The brand's website contains rich information on products and categories. Through this clone project, we can practice how to efficiently separate and store various categories and types of products' data and how to visually represent them.
 
-Design inspiration: Aesop is famous for its minimalistic and sophisticated design. Cloning the website helps us gain design inspiration to develop visually appealing and user-friendly interfaces.
+Design inspiration: Aesop is famous for its minimalistic and sophisticated design. 
+Cloning the website helped us gain design inspiration to develop visually appealing and user-friendly interfaces.
 
 ## Demo Video
+
 [Demo Video Link](https://github.com/wecode-bootcamp-korea/49-2nd-2SOP-backend/assets/45601439/cf89ff5d-7d63-44ab-94b6-8fdd52938d23)
 
 ## Technologies Used
@@ -51,6 +59,7 @@ Common :
    <img src="https://img.shields.io/badge/trello-0052CC?style=for-the-badge&logo=trello&logoColor=white">
    <img src="https://img.shields.io/badge/.env-ECD53F?style=for-the-badge&logo=.env&logoColor=white">
    
+
 ## Implemented Features
 **Common:**
 
@@ -91,4 +100,6 @@ Payment using points provided during registration.
 Endpoint: https://www.2sop.com/paymentcheck
 
 ### Reference
+
 This project was created for educational purposes, referencing the Aesop website. 
+
